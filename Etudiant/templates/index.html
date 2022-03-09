@@ -140,24 +140,33 @@
         <div class="row">
           <h1>List of all Students <hr>
           <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#addArticleModal">ADD STUDENT</button>
-          </h1>
+          </h1><hr>
           &emsp;
           <div class="form-inline my-2 my-lg-0" style="margin-left: 40%;">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" v-model="search_term" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getArticles()">Search</button>
           </div>
           <table class="table">
-            <thead>
+            <thead style="background: teal; color: white;">
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Heading</th>
+                <th scope="col">Matricule</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">Classe</th>
+                <th scope="col">Departement</th>
+                <!-- <th scope="col">Institut</th> -->
+                <!-- <th scope="col">Faculte</th> -->
+                <!-- <th scope="col">Campus</th> -->
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(article, index) in articles">
-                <th scope="row">${index+1}</th>
-                <td>${article.article_heading}</td>
+                <th scope="row">${article.numero_matricule}</th>
+                <td>${article.first_name}</td>
+                <td>${article.last_name}</td>
+                <td>${article.classe}</td>
+                <td>${article.departement}</td>
                 <td>
                   <button class="btn btn-info" v-on:click="getArticle(article.article_id)">Edit</button>
                   <button class="btn btn-danger" v-on:click="deleteArticle(article.article_id)">Delete</button>
@@ -284,9 +293,9 @@
       },
       methods: {
         getArticles: function() {
-          let api_url = '/api/article/';
+          let api_url = '/api/student/';
           if(this.search_term!==''||this.search_term!==null) {
-            api_url = `/api/article/?search=${this.search_term}`
+            api_url = `/api/student/?search=${this.search_term}`
           }
           this.loading = true;
           this.$http.get(api_url)
@@ -301,7 +310,7 @@
         },
         getArticle: function(id) {
           this.loading = true;
-          this.$http.get(`/api/article/${id}/`)
+          this.$http.get(`/api/student/${id}/`)
               .then((response) => {
                 this.currentArticle = response.data;
                 $("#editArticleModal").modal('show');
@@ -314,7 +323,7 @@
         },
         addArticle: function() {
           this.loading = true;
-          this.$http.post('/api/article/',this.newArticle)
+          this.$http.post('/api/student/',this.newArticle)
               .then((response) => {
                 this.loading = false;
                 this.getArticles();
@@ -326,7 +335,7 @@
         },
         updateArticle: function() {
           this.loading = true;
-          this.$http.put(`/api/article/${this.currentArticle.article_id}/`, this.currentArticle)
+          this.$http.put(`/api/student/${this.currentArticle.article_id}/`, this.currentArticle)
               .then((response) => {
                 this.loading = false;
                 this.currentArticle = response.data;
@@ -339,7 +348,7 @@
         },
         deleteArticle: function(id) {
           this.loading = true;
-          this.$http.delete(`/api/article/${id}/`)
+          this.$http.delete(`/api/student/${id}/`)
               .then((response) => {
                 this.loading = false;
                 this.getArticles();
