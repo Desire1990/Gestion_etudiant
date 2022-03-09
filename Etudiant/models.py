@@ -36,13 +36,13 @@ class Departement(models.Model):
 	name = models.CharField(max_length=50, null=False, unique=True)
 
 	def __str__(self):
-		return f"{self.name}"
+		return self.name
 
 
 class Student(models.Model):
 	student_id = models.AutoField(primary_key=True)
 	departement = models.ForeignKey(Departement, on_delete=models.CASCADE)
-	numero_matricule = models.BigIntegerField()
+	numero_matricule = models.BigIntegerField(unique=True)
 	first_name = models.CharField(max_length=50, null=False, blank=True)
 	last_name = models.CharField(max_length=50, null=False, blank=True)
 	classe = models.CharField(max_length=50, null=False, blank=True)
@@ -54,7 +54,7 @@ class Student(models.Model):
 
 	def generateMatricule(self):
 		year = datetime.date.today().year
-		return "{}{:0>2d}".format(year,'/', self.student_id.id)
+		return "{}{:0>2d}".format('E', self.student_id)
 	
 	def fullname(self):
 		return self.first_name+" "+self.last_name
