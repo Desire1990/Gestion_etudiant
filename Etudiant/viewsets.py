@@ -25,7 +25,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('student_id', 'fullname')
+    search_fields = ('student_id', 'first_name', 'last_name')
 
 class InstitutViewSet(viewsets.ModelViewSet):
     queryset = Institut.objects.all()
